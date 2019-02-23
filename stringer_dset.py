@@ -36,5 +36,8 @@ class StringerDset(Dataset):
     def __getitem__(self, idx):
         return (self.imgs[self.istim[idx] - 1], self.resp[idx])
 
+    def get_all(self):
+        return ([self.__getitem])
+
     def __len__(self):
         return self.istim.shape[0]
