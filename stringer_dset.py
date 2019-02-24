@@ -4,7 +4,8 @@ from os.path import join as oj
 import numpy as np
 
 class StringerDset(Dataset):
-    def __init__(self, data_dir = '/scratch/users/vision/data/neuro_misc/stringer_data_b', train=True, crop_center=True, trans=None):
+    def __init__(self, data_dir = '/scratch/users/vision/data/neuro_misc/stringer_data_b', 
+                 train=True, crop_center=True, trans=None, downsample=True):
         mt = sio.loadmat(oj(data_dir, 'natimg2800_M160825_MP027_2016-12-14.mat'))
 
         ### stimulus responses
@@ -25,8 +26,12 @@ class StringerDset(Dataset):
             imgs = mt_ims['imgs'][:, 90:180, :]  # 68 by 90 by number of images
         else:
             imgs = mt_ims['imgs']  # 68 by 270 by number of images
-        self.imgs = imgs.transpose((2, 0, 1)).astype(np.float32)
+        self.imgs = imgs.transpose((2, 0, 1)).astype(np.float32) # (n x 68 x 90)
 #         print(self.imgs.shape)
+
+        if downsample:
+            self.imgs = self.imgs[:, ::2, ::2]
+
         if trans is not None:
 #             self.imgs = self.imgs.reshape(self.imgs.shape[0], 1, self.imgs.shape[1], self.imgs.shape[2])
             self.imgs = trans(imgs)
