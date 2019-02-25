@@ -21,7 +21,7 @@ def get_generator():
     G = Generator_rect(ngpu=num_gpu).to(device)
 
     # load weights
-    G.load_state_dict(torch.load(oj(gan_dir, 'weights_rect/netG_epoch_299.pth')), map_location=device)
+    G.load_state_dict(torch.load(oj(gan_dir, 'weights_rect/netG_epoch_299.pth'), map_location=device))
     G = G.eval()
     return G
 

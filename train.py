@@ -10,6 +10,7 @@ import stringer_dset
 import models
 import utils    
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description='parameters for training decoder')
 parser.add_argument('--lr', type=float, default=1e-11, help='learning rate')
@@ -18,7 +19,7 @@ args = parser.parse_args()
 learning_rate = args.lr
 lambda_reg = args.reg
 print('lambda_reg', lambda_reg, 'lr', learning_rate)
-out_dir = 'out' + 'lambda=' + str(lambda_reg) + '_lr=' + str(learning_rate)
+out_dir = '/scratch/users/vision/chandan/decoding/' + 'lambda=' + str(lambda_reg) + '_lr=' + str(learning_rate)
 its = 10000
 num_gpu = 1 if torch.cuda.is_available() else 0
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
