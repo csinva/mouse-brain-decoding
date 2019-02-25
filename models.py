@@ -25,11 +25,16 @@ def get_generator():
     G = G.eval()
     return G
 
-def get_reg_model():
+def get_reg_model(lay=1):
     import torchvision.models as tmodels
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    vgg = tmodels.vgg19(pretrained=True).to(device)
-    reg_model = list(vgg.features.modules())[1]
+    vgg = tmodels.vgg19(pretrained=True).eval().to(device)
+    if lay == 1:
+        reg_model = list(vgg.features.modules())[1] # first lay
+    elif lay == 2:
+        mods = list(vgg.features.modules())[1: 4]
+        mods[1].inplace = False
+        reg_model = torch.nn.Sequential(mods[0], mods[1], mods[2])
     return reg_model
 
 

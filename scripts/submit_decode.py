@@ -5,7 +5,8 @@ partition = 'gpu_yugroup'
 
 # sweep lambda_reg
 params_to_vary = {
-    '--reg': [0, 1e-1, 5e-1, 1e0, 1e1, 1e2]
+    '--reg1': [0, 1e-1, 5e-1, 1e0, 1e1, 1e2, 1e3],
+    '--reg2': [0, 1e1],
 }
 
 

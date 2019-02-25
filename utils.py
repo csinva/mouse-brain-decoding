@@ -24,7 +24,7 @@ def viz_ims(ims_pred, ims, num_ims=5):
         plt.subplots_adjust(hspace=0, wspace=0, left=0)
     plt.show()
 
-def save_ims(out_dir, ims_pred, ims, it, num_ims=5, val=False):      
+def save_ims(out_dir, ims_pred, ims, it, num_ims=5, val=False, loss=1.0):      
     suffix = '_val' if val else ''
     
     ims_save = np.empty((2 * num_ims, 1, 34, 45), dtype=np.float32)
@@ -40,18 +40,18 @@ def save_ims(out_dir, ims_pred, ims, it, num_ims=5, val=False):
     ims_save[1::2] = ims_pred
     ims_save = torch.Tensor(ims_save)
     vutils.save_image(ims_save,
-                '{}/{}_samples{}.png'.format(out_dir, it, suffix),
+                '{}/{}_samples{}_loss{:0.4f}.png'.format(out_dir, it, suffix, loss),
                 normalize=False, nrow=10)  
     
 # vgg 
-def lay1_sim(reg_model, im1, im2):
+def lay_sim(reg_model, im1, im2):
     # grayscale to 3 channel
-    
     im1 = im1.expand(-1, 3, -1, -1)
     im2 = im2.expand(-1, 3, -1, -1)
     
-    feat1 = reg_model(im1).flatten()
-    feat2 = reg_model(im2).flatten()
+    feat1 = reg_model(im1).flatten() #flatten()
+    feat2 = reg_model(im2).flatten() #flatten()
+    
     feat1 = feat1 / feat1.norm()
     feat2 = feat2 / feat2.norm()
     return torch.dot(feat1, feat2)

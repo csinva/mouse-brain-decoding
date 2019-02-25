@@ -52,7 +52,7 @@ def get_data():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     sdset = StringerDset()
 
-    (ims, resps) = sdset[:2000]
+    (ims, resps) = sdset[:2300]
     means = np.mean(ims, axis=0)
     stds = np.std(ims, axis=0) + 1e-8 # stds basically just magnifies stuff in the middle, no need to multiply it back
     ims_norm = (ims - means) / stds
@@ -61,7 +61,7 @@ def get_data():
     resps = torch.Tensor(resps).to(device)
 
 
-    (ims_val, resps_val) = sdset[-100:]
+    (ims_val, resps_val) = sdset[2300: 2700]
     means_val = np.mean(ims_val, axis=0)
     stds_val = np.std(ims_val, axis=0) + 1e-8 # stds basically just magnifies stuff in the middle, no need to multiply it back
     ims_norm_val = (ims_val - means_val) / stds_val
