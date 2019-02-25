@@ -17,3 +17,5 @@ scratch
 scripts/logs
 scripts/out
 out*
+**.pth
+**.png
