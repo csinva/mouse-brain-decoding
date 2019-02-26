@@ -6,12 +6,12 @@ partition = 'gpu_yugroup'
 # sweep lambda_reg
 params_to_vary = {
     '--reg1': [0, 1e-1, 5e-1, 1e0, 1e1, 1e2, 1e3],
-    '--reg2': [0, 1e1],
+    '--reg2': [0],
 }
 
 
 # run
-s = Slurm("proto", {"partition": partition, "time": "3-0", "gres": "gpu:1"})
+s = Slurm("decode", {"partition": partition, "time": "3-0", "gres": "gpu:1"})
 ks = sorted(params_to_vary.keys())
 vals = [params_to_vary[k] for k in ks]
 param_combinations = list(itertools.product(*vals)) # list of tuples

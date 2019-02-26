@@ -92,7 +92,7 @@ for it in range(its):
 
             ims_pred_val = model(resps_val)
             val_loss_mse = loss_fn(ims_pred_val, ims_val).detach().item() / (34 * 45 * resps_val.shape[0])
-            val_loss_reg1, val_loss_reg2 = 0, 0
+            val_loss, val_loss_reg1, val_loss_reg2 = 0, 0, 0
             if lambda_reg1 > 0:
                 val_loss_reg1 = 1 - utils.lay_sim(reg_model1, ims_pred_val, ims_val).detach().item()
                 val_loss = val_loss_mse + lambda_reg1 * val_loss_reg1
