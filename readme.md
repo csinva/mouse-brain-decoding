@@ -13,4 +13,8 @@ So far the results are not very good. Some samples are shown below. Starting fro
 # code
 - the `train.py` file contains the bulk of the code for training
 - the `scripts` folder contains files for sweeping over parameters
-- todo: trying different loss functions for generating images that are more perceptially similar (e.g. vgg perceptual loss)
+- many things left to do
+  - try different loss functions for generating images that are more perceptially similar (e.g. vgg perceptual loss)
+  - different types of normalization
+  - augment data (add rotates, etc.)
+  - try learning w/ poisson distr.
