@@ -34,7 +34,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 ims, resps, ims_val, resps_val = stringer_dset.get_data()
 G = models.get_generator()
 reg_model1 = models.get_reg_model(lay=1) # 1 or 'all' supported
-reg_model2 = models.get_reg_model(lay=2) # 1 or 'all' supported
+# reg_model2 = models.get_reg_model(lay=2) # 1 or 'all' supported
 
 # optimization
 loss_fn = torch.nn.MSELoss(reduction='sum')
@@ -65,8 +65,8 @@ for it in range(its):
     loss = loss_fn(ims_pred, ims)
     if lambda_reg1 > 0:
         loss = loss + lambda_reg1 * resps.shape[0] * 1 - utils.lay_sim(reg_model1, ims, ims_pred)
-    if lambda_reg2 > 0:
-        loss = loss + lambda_reg2 * resps.shape[0] * 1 - utils.lay_sim(reg_model2, ims, ims_pred)
+#     if lambda_reg2 > 0:
+#         loss = loss + lambda_reg2 * resps.shape[0] * 1 - utils.lay_sim(reg_model2, ims, ims_pred)
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
@@ -83,8 +83,8 @@ for it in range(its):
             if lambda_reg1 > 0:
                 loss_reg1 = 1 - utils.lay_sim(reg_model1, ims_pred, ims).detach().item()
                 loss = loss_mse + lambda_reg1 * loss_reg1
-            if lambda_reg2 > 0:
-                loss_reg2 = 1 - utils.lay_sim(reg_model2, ims_pred, ims).detach().item()
+#             if lambda_reg2 > 0:
+#                 loss_reg2 = 1 - utils.lay_sim(reg_model2, ims_pred, ims).detach().item()
                 loss = loss_mse + lambda_reg2 * loss_reg2
             lr = optimizer.param_groups[0]['lr']
             print(f'train mse {loss_mse:0.4f} reg1 {loss_reg1:0.4f} reg2 {loss_reg2:0.4f} lr {lr}')
@@ -96,9 +96,9 @@ for it in range(its):
             if lambda_reg1 > 0:
                 val_loss_reg1 = 1 - utils.lay_sim(reg_model1, ims_pred_val, ims_val).detach().item()
                 val_loss = val_loss_mse + lambda_reg1 * val_loss_reg1
-            if lambda_reg2 > 0:
-                val_loss_reg2 = 1 - utils.lay_sim(reg_model2, ims_pred_val, ims_val).detach().item()
-                val_loss = val_loss_mse + lambda_reg2 * val_loss_reg2
+#             if lambda_reg2 > 0:
+#                 val_loss_reg2 = 1 - utils.lay_sim(reg_model2, ims_pred_val, ims_val).detach().item()
+#                 val_loss = val_loss_mse + lambda_reg2 * val_loss_reg2
 
             print(f'val mse {val_loss_mse:0.4f} reg1 {val_loss_reg1:0.4f} reg2 {val_loss_reg2:0.4f}')
             if val_loss < val_loss_best:
